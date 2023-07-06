@@ -1,8 +1,5 @@
 {
-  "cSpell.words": [
-    "imshow",
-    "mediapipe"
-  ],
+  "cSpell.words": ["astype", "imread", "imshow", "imwrite", "mediapipe"],
   "[python]": {
     "editor.defaultFormatter": "ms-python.autopep8"
   },

@@ -1,8 +1,8 @@
 import csv
 import os
 
-folder_path = 'gestures'
-csv_file = './gestures/annotations.csv'
+folder_path = 'preprocessed_images'
+csv_file = './preprocessed_images/annotations.csv'
 
 # 檢查CSV檔案是否存在，如果不存在則創建新的檔案
 if not os.path.isfile(csv_file):
@@ -17,5 +17,5 @@ with open(csv_file, 'a') as file:
     for filename in os.listdir(folder_path):
         if filename.endswith('.jpg'):
             image_path = os.path.join(folder_path, filename)
-            gesture_label = 'your_label'  # 根據您的需要指定手勢的標籤
+            gesture_label = '1'  # 根據您的需要指定手勢的標籤
             writer.writerow([image_path, gesture_label])
