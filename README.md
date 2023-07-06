@@ -1,6 +1,6 @@
 # GOAL
 The purpose of this repository is to recognize sign language
-#ENVIRONMENT
+# ENVIRONMENT
 OpenCV
 Mediapipe
  
