@@ -2,7 +2,7 @@ import tensorflow as tf
 import cv2
 import numpy as np
 
-model = tf.keras.models.load_model('keras_model.h5', compile=False)  # 載入模型
+model = tf.keras.models.load_model('./test/keras_model.h5', compile=False)  # 載入模型
 data = np.ndarray(shape=(1, 224, 224, 3), dtype=np.float32)          # 設定資料陣列
 
 
