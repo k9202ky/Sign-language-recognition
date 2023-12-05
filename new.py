@@ -14,11 +14,8 @@ def calculate_angle(v1, v2, v3):
     dot_product = v1v2[0] * v2v3[0] + v1v2[1] * v2v3[1]
 
     cos_theta = dot_product / (length_v1v2 * length_v2v3)
-
-    angle_rad = math.acos()
-    if cos_theta>=1 or cos_theta<=-1:
-        print("error")
-
+    cos_theta = min(max(cos_theta, -1), 1)
+    angle_rad = math.acos(cos_theta)
     angle_deg = math.degrees(angle_rad)
     
     return angle_deg
