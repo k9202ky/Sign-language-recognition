@@ -31,6 +31,31 @@ def hand_angle(hand_):
 
     return angle_list
 
+def gesture_predict(hand_ang):  # 判斷手勢並回傳
+    if not hand_ang:
+        return "No Gesture"
+
+    for angles in hand_ang:
+        if (
+            0 <= angles[0] <= 30 and
+            0 <= angles[1] <= 15 and
+            0 <= angles[2] <= 15 and
+            0 <= angles[3] <= 15 and
+            0 <= angles[4] <= 15 and
+            0 <= angles[5] <= 15 and
+            0 <= angles[6] <= 15 and
+            0 <= angles[7] <= 15 and
+            0 <= angles[8] <= 15 and
+            0 <= angles[9] <= 15
+        ):
+            return "5"
+        elif angles[0] < 20 and angles[1] > 70:
+            return "?"
+        elif angles[0] < 20 and angles[1] > 70:
+            return "?"
+
+    return "Unknown"
+
 cv2.namedWindow('Hand Tracking')
 cv2.namedWindow('position')
 cv2.namedWindow('angle')
@@ -90,6 +115,9 @@ while True:
                     cv2.putText(white_img_2, angle_text, (x_offset, y_offset), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 0, 0), 1, cv2.LINE_AA)
                     y_offset += 20
                     
+        gesture_text = f"gesture : {gesture_predict(hand_angles)}"  # 輸出手勢是甚麼手勢
+        cv2.putText(img, gesture_text, (300, 50),cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 3)
+        
         cTime = time.time()
         fps = 1/(cTime-pTime)
         pTime = cTime
