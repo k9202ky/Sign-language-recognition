@@ -4,10 +4,6 @@ import time
 import numpy as np
 import math
 
-import math
-
-import math
-
 def calculate_angle(v1, v2, v3):
     #計算第一條向量 v1v2
     v1v2_x = v2[0] - v1[0]
