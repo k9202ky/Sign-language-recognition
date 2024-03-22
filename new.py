@@ -3,6 +3,7 @@ import mediapipe as mp
 import time
 import numpy as np
 import math
+from gesture_ranges import gesture_ranges  # 導入手勢範圍定義
 
 def calculate_angle(v1, v2, v3):
     #計算第一條向量 v1v2
@@ -57,30 +58,17 @@ def hand_angle(hand_):
 
     return angle_list
 
-def gesture_predict(hand_ang):  #判斷手勢並回傳
+def gesture_predict(hand_ang):
     if not hand_ang:
         return "No Gesture"
 
     for angles in hand_ang:
-        if (
-            0 <= angles[0] <= 30 and
-            0 <= angles[1] <= 15 and
-            0 <= angles[2] <= 15 and
-            0 <= angles[3] <= 15 and
-            0 <= angles[4] <= 15 and
-            0 <= angles[5] <= 15 and
-            0 <= angles[6] <= 15 and
-            0 <= angles[7] <= 15 and
-            0 <= angles[8] <= 15 and
-            0 <= angles[9] <= 15
-        ):
-            return "5"
-        elif angles[0] < 20 and angles[1] > 70:
-            return "?"
-        elif angles[0] < 20 and angles[1] > 70:
-            return "?"
+        for gesture, angle_ranges in gesture_ranges.items():
+            if all(min_angle <= angle <= max_angle for angle, (min_angle, max_angle) in zip(angles, angle_ranges)):
+                return gesture
 
     return "Unknown"
+
 
 cv2.namedWindow('Hand Tracking')
 cv2.namedWindow('position')
