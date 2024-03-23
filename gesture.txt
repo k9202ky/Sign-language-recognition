@@ -1,0 +1,253 @@
+    for angles in hand_ang:
+        if (
+            0 <= angles[0] <= 30 and
+            0 <= angles[1] <= 15 and
+            0 <= angles[2] <= 15 and
+            0 <= angles[3] <= 15 and
+            0 <= angles[4] <= 15 and
+            0 <= angles[5] <= 15 and
+            0 <= angles[6] <= 15 and
+            0 <= angles[7] <= 15 and
+            0 <= angles[8] <= 15 and
+            0 <= angles[9] <= 15
+        ):
+            return "5"
+        elif (
+            0 <= angles[0] <= 35 and
+            0 <= angles[1] <= 50 and
+            100 <= angles[2] <= 200 and
+            0 <= angles[3] <= 100 and
+            100 <= angles[4] <= 200 and
+            100 <= angles[5] <= 200 and
+            100 <= angles[6] <= 200 and
+            100 <= angles[7] <= 200 and
+            100 <= angles[8] <= 200 and
+            0 <= angles[9] <= 200
+        ):   
+            return "a"
+        elif (
+            30 <= angles[0] <= 100 and
+            30 <= angles[1] <= 100 and
+            0 <= angles[2] <= 15 and
+            0 <= angles[3] <= 15 and
+            0 <= angles[4] <= 15 and
+            0 <= angles[5] <= 15 and
+            0 <= angles[6] <= 15 and
+            0 <= angles[7] <= 15 and
+            0 <= angles[8] <= 15 and
+            0 <= angles[9] <= 15
+        ):   
+            return "b"
+        elif (
+            0 <= angles[0] <= 15 and
+            0 <= angles[1] <= 15 and
+            15 <= angles[2] <= 50 and
+            0 <= angles[3] <= 30 and
+            15 <= angles[4] <= 70 and
+            0 <= angles[5] <= 50 and
+            15 <= angles[6] <= 70 and
+            0 <= angles[7] <= 30 and
+            15 <= angles[8] <= 50 and
+            0 <= angles[9] <= 30
+        ):     
+            return "c"
+        elif (
+            0 <= angles[0] <= 15 and
+            0 <= angles[1] <= 30 and
+            0 <= angles[2] <= 15 and
+            0 <= angles[3] <= 30 and
+            30 <= angles[4] <= 100 and
+            0 <= angles[5] <= 50 and
+            30 <= angles[6] <= 100 and
+            0 <= angles[7] <= 50 and
+            15 <= angles[8] <= 70 and
+            0 <= angles[9] <= 45
+        ):     
+            return "d"
+        elif (
+            30 <= angles[0] <= 100 and
+            30 <= angles[1] <= 100 and
+            130 <= angles[2] <= 200 and
+            0 <= angles[3] <= 45 and
+            130 <= angles[4] <= 200 and
+            0 <= angles[5] <= 30 and
+            130 <= angles[6] <= 200 and
+            0 <= angles[7] <= 30 and
+            130 <= angles[8] <= 200 and
+            0 <= angles[9] <= 35
+        ):     
+            return "e"
+        elif (
+            15 <= angles[0] <= 60 and
+            0 <= angles[1] <= 30 and
+            0 <= angles[2] <= 30 and
+            100 <= angles[3] <= 170 and
+            0 <= angles[4] <= 30 and
+            0 <= angles[5] <= 30 and
+            0 <= angles[6] <= 30 and
+            0 <= angles[7] <= 30 and
+            0 <= angles[8] <= 30 and
+            0 <= angles[9] <= 30
+        ):     
+            return "f"
+        elif (
+            0 <= angles[0] <= 30 and
+            0 <= angles[1] <= 30 and
+            0 <= angles[2] <= 30 and
+            0 <= angles[3] <= 30 and
+            70 <= angles[4] <= 130 and
+            30 <= angles[5] <= 80 and
+            70 <= angles[6] <= 130 and
+            30 <= angles[7] <= 100 and
+            50 <= angles[8] <= 130 and
+            30 <= angles[9] <= 100
+        ):     
+            return "g"
+        elif (
+            15 <= angles[0] <= 60 and
+            0 <= angles[1] <= 30 and
+            0 <= angles[2] <= 15 and
+            0 <= angles[3] <= 15 and
+            0 <= angles[4] <= 15 and
+            0 <= angles[5] <= 15 and
+            100<= angles[6] <= 170 and
+            10 <= angles[7] <= 50 and
+            100 <= angles[8] <= 170 and
+            15 <= angles[9] <= 70
+        ):     
+            return "h"
+        elif (
+            15 <= angles[0] <= 75 and
+            15 <= angles[1] <= 75 and
+            100 <= angles[2] <= 200 and
+            0 <= angles[3] <= 15 and
+            100 <= angles[4] <= 200 and
+            0 <= angles[5] <= 15 and
+            130<= angles[6] <= 200 and
+            0 <= angles[7] <= 15 and
+            0 <= angles[8] <= 15 and
+            0 <= angles[9] <= 30
+        ):     
+            return "i"
+        elif (
+            0 <= angles[0] <= 30 and
+            0 <= angles[1] <= 15 and
+            30 <= angles[2] <= 70 and
+            0 <= angles[3] <= 30 and
+            30 <= angles[4] <= 130 and
+            30 <= angles[5] <= 85 and
+            30<= angles[6] <= 100 and
+            50 <= angles[7] <= 150 and
+            30 <= angles[8] <= 100 and
+            130 <= angles[9] <= 200
+        ):   return "j" 
+        elif (
+            0 <= angles[0] <= 45 and
+            0 <= angles[1] <= 45 and
+            0 <= angles[2] <= 20 and
+            0 <= angles[3] <= 20 and
+            0 <= angles[4] <= 20 and
+            0 <= angles[5] <= 20 and
+            100<= angles[6] <= 200 and
+            0 <= angles[7] <= 20 and
+            100 <= angles[8] <= 200 and
+            0 <= angles[9] <= 20
+        ):   return "k"   
+        elif (
+            0 <= angles[0] <= 20 and
+            0 <= angles[1] <= 40 and
+            0 <= angles[2] <= 20 and
+            0 <= angles[3] <= 20 and    
+            100 <= angles[4] <= 200 and
+            0 <= angles[5] <= 40 and
+            100<= angles[6] <= 200 and
+            0 <= angles[7] <= 50 and
+            100 <= angles[8] <= 200 and
+            0 <= angles[9] <= 30
+        ):   return "L" 
+        elif (
+            30 <= angles[0] <= 80 and
+            0 <= angles[1] <= 10 and
+            100 <= angles[2] <= 200 and
+            0 <= angles[3] <= 30 and    
+            100 <= angles[4] <= 200 and
+            0 <= angles[5] <= 30 and
+            100<= angles[6] <= 200 and
+            0 <= angles[7] <= 30 and
+            50 <= angles[8] <=100 and
+            0 <= angles[9] <= 30
+        ):   return "M"  
+        elif (
+            30 <= angles[0] <= 80 and
+            10 <= angles[1] <= 30 and
+            100 <= angles[2] <= 200 and
+            0 <= angles[3] <= 30 and    
+            100 <= angles[4] <= 200 and
+            0 <= angles[5] <= 30 and
+            100<= angles[6] <= 200 and
+            0 <= angles[7] <= 30 and
+            100 <= angles[8] <= 150 and
+            0 <= angles[9] <= 30
+        ):   return "N"   
+        elif (
+            15 <= angles[0] <= 80 and
+            0 <= angles[1] <= 30 and
+            100 <= angles[2] <= 200 and
+            0 <= angles[3] <= 30 and    
+            100 <= angles[4] <= 200 and
+            15 <= angles[5] <= 50 and
+            100<= angles[6] <= 200 and
+            10 <= angles[7] <= 50 and
+            100 <= angles[8] <= 200 and
+            0 <= angles[9] <= 50
+        ):   return "O"
+        
+        elif (
+            0 <= angles[0] <= 30 and
+            0 <= angles[1] <= 15 and
+            0 <= angles[2] <= 15 and
+            0 <= angles[3] <= 15 and    
+            0 <= angles[4] <= 40 and
+            0 <= angles[5] <= 30 and
+            80<= angles[6] <= 170 and
+            10 <= angles[7] <= 50 and
+           70 <= angles[8] <= 150 and
+            0 <= angles[9] <= 50
+        ):   return "P" 
+        elif (
+            40 <= angles[0] <= 110 and
+            0 <= angles[1] <= 30 and
+            0 <= angles[2] <= 15 and
+            0 <= angles[3] <= 15 and    
+            0 <= angles[4] <= 40 and
+            0 <= angles[5] <= 30 and
+            120<= angles[6] <= 200 and
+            0 <= angles[7] <= 15 and
+          120 <= angles[8] <= 200 and
+            0 <= angles[9] <= 15
+        ):   return "P" 
+        elif (
+            30 <= angles[0] <= 80 and
+            30 <= angles[1] <= 80 and
+            120 <= angles[2] <= 200 and
+            0 <= angles[3] <= 50 and    
+           120 <= angles[4] <= 200 and
+            0 <= angles[5] <= 110 and
+            120<= angles[6] <= 200 and
+            15 <= angles[7] <= 90 and
+          120 <= angles[8] <= 200 and
+            0 <= angles[9] <= 75
+        ):   return "s" 
+        elif (
+           30 <= angles[0] <= 80 and
+            10 <= angles[1] <= 50 and
+            0 <= angles[2] <= 15 and
+            0 <= angles[3] <= 15 and    
+            0 <= angles[4] <= 15 and
+            0 <= angles[5] <= 15 and
+            120<= angles[6] <= 200 and
+            0 <= angles[7] <= 15 and
+          120 <= angles[8] <= 200 and
+            0 <= angles[9] <= 30
+        ):   return "U" 
+   
