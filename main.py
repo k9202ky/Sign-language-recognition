@@ -136,6 +136,9 @@ handConStyle = mpDraw.DrawingSpec(color=(0, 0, 255), thickness=6)
 pTime = 0
 cTime = 0
 
+# 初始化語音功能
+voice_enabled = True
+
 while True:
     ret, img = cap.read()
     if ret:
@@ -188,11 +191,19 @@ while True:
                                 cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 0, 0), 1, cv2.LINE_AA)
                     y_offset += 20
 
-        gesture_text = f"gesture : {gesture_predict(hand_angles)}"  # 輸出手勢是甚麼手勢
+        gesture_text = f"Gesture : {gesture_predict(hand_angles)}"  # 輸出手勢是甚麼手勢
         gesture_speak = gesture_predict(hand_angles)
         cv2.putText(img, gesture_text, (300, 50),
                     cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 3)
-        speak_gesture_async(gesture_speak)  # 念出手勢
+        
+        # 語音功能狀態顯示
+        voice_mode_text = "Voice Mode: ON" if voice_enabled else "Voice Mode: OFF"
+        cv2.putText(img, voice_mode_text, (30, imgHeight - 30),
+                    cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 3)
+        
+        #語音功能
+        if voice_enabled:
+            speak_gesture_async(gesture_speak)  # 念出手勢
 
         # 設定和顯示FPS
         cTime = time.time()
@@ -205,8 +216,14 @@ while True:
         cv2.imshow('position', white_img_1)
         cv2.imshow('angle', white_img_2)
 
+    key = cv2.waitKey(1)
+    
+    # 按小寫m開關語音模式
+    if key == ord('m'):
+        voice_enabled = not voice_enabled
+    
     # 按小寫q離開
-    if cv2.waitKey(1) == ord('q'):
+    if key == ord('q'):
         break
 
 cv2.destroyAllWindows()
