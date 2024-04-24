@@ -80,22 +80,28 @@ def gesture_predict(hand_ang):
     return "Unknown"
 
 
-last_gesture = None
+last_gesture = ""
 last_gesture_time = time.time()
 
-
+# 非同步語音合成函式
 def speak_gesture_async(gesture):
-    global last_gesture, last_gesture_time
+    global last_gesture_time, last_gesture
 
-    # 檢查時間間隔
-    if time.time() - last_gesture_time > 1:  # 調整時間間隔
-        last_gesture = gesture
+    # 如果上次手勢是空的，或者距離上次說出手勢已經超過5秒，或者手勢發生變化
+    if (not last_gesture or 
+        time.time() - last_gesture_time > 5 or 
+        (last_gesture != gesture and gesture != "Unknown")):
+
+        # 更新上次說出手勢的時間
         last_gesture_time = time.time()
+        # 更新上次手勢
+        last_gesture = gesture
 
         # 在一個新的執行緒中進行語音合成
         threading.Thread(target=speak_gesture, args=(gesture,)).start()
 
 
+# 語音合成函式
 def speak_gesture(gesture):
     # 設置要說的文本
     text = gesture if gesture not in ["No Gesture", "Unknown"] else ""
