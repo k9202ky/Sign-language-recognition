@@ -6,7 +6,40 @@ import math
 import pyttsx3
 import threading
 from gesture_ranges import gesture_ranges  # 導入手勢範圍定義
+import tkinter as tk
+import datetime
 
+GMT = datetime.timezone(datetime.timedelta(hours=8))    # 設定所在時區 ( 台灣是 GMT+8 )
+
+
+root = tk.Tk()
+root.title('手語辨識專題')        # 設定標題
+window_width = root.winfo_screenwidth()    # 取得螢幕寬度
+window_height = root.winfo_screenheight()  # 取得螢幕高度
+root.resizable(True, True)   # 設定 x 方向和 y 方向都不能縮放
+
+width = 600
+height = 400
+left = int((window_width - width)/2)       # 計算左上 x 座標
+top = int((window_height - height)/2)      # 計算左上 y 座標
+root.geometry(f'{width}x{height}+{left}+{top}')
+
+a = tk.StringVar()            # 建立文字變數
+    # 建立不斷改變文字變數的函式
+def showTime():
+    now = datetime.datetime.now(tz=GMT).strftime('%H:%M:%S')   # 取得目前的時間，格式使用 H:M:S
+    a.set(now)          # 設定變數內容
+    root.after(1000, showTime)    # 視窗每隔 1000 毫秒再次執行一次 showTime()
+    
+tk.Label(root, text='目前時間', font=('Arial',20)).pack()   # 放入第一個 Label 標籤
+tk.Label(root, textvariable=a , font=('Arial',20)).pack()   # 放入第二個 Label 標籤，內容是 a 變數
+tk.Label(root, text='輸入小寫q來離開程式\n輸入小寫m來關閉語音模式',font=('Arial',15),).pack() # 建立 label 標籤
+
+btn = tk.Button(root, text='點擊按鈕開始',command=root.destroy,width=20, height=5)     # 建立 Button 按鈕
+btn.pack()   
+showTime()
+# 加入視窗中
+root.mainloop()
 # 初始化 Text-to-Speech 引擎
 engine = pyttsx3.init()
 # 在全局範圍定義一個鎖，以確保語音合成引擎在同一時間只能由一個執行緒啟動
