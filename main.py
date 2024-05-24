@@ -1,50 +1,66 @@
-import cv2
-import mediapipe as mp
 import time
-import numpy as np
+import datetime
+import cv2
 import math
 import pyttsx3
 import threading
-from gesture_ranges import gesture_ranges  # 導入手勢範圍定義
+import mediapipe as mp
+import numpy as np
 import tkinter as tk
-import datetime
+from gesture_ranges import gesture_ranges  # 導入手勢範圍定義
+
+############################### GUI 介面設置 ###################################
 
 GMT = datetime.timezone(datetime.timedelta(hours=8))    # 設定所在時區 ( 台灣是 GMT+8 )
 
-
 root = tk.Tk()
-root.title('手語辨識專題')        # 設定標題
-window_width = root.winfo_screenwidth()    # 取得螢幕寬度
-window_height = root.winfo_screenheight()  # 取得螢幕高度
-root.resizable(True, True)   # 設定 x 方向和 y 方向都不能縮放
+root.title('手語辨識專題')      # 設定 GUI 標題
+root.resizable(True, True)     # 設定 x 方向和 y 方向能自由縮放
 
 width = 600
 height = 400
-left = int((window_width - width)/2)       # 計算左上 x 座標
-top = int((window_height - height)/2)      # 計算左上 y 座標
-root.geometry(f'{width}x{height}+{left}+{top}')
+window_width = root.winfo_screenwidth()    # 取得螢幕寬度
+window_height = root.winfo_screenheight()  # 取得螢幕高度
+left = int((window_width - width)/2)       # 計算 GUI 左上 x 座標
+top = int((window_height - height)/2)      # 計算 GUI 左上 y 座標
+root.geometry(f'{width}x{height}+{left}+{top}')     # 對 GUI 進行長寬設定
 
-a = tk.StringVar()            # 建立文字變數
-    # 建立不斷改變文字變數的函式
+a = tk.StringVar()      # 建立文字變數
+# 建立不斷改變文字變數的函式
 def showTime():
-    now = datetime.datetime.now(tz=GMT).strftime('%H:%M:%S')   # 取得目前的時間，格式使用 H:M:S
-    a.set(now)          # 設定變數內容
-    root.after(1000, showTime)    # 視窗每隔 1000 毫秒再次執行一次 showTime()
-    
-tk.Label(root, text='目前時間', font=('Arial',20)).pack()   # 放入第一個 Label 標籤
-tk.Label(root, textvariable=a , font=('Arial',20)).pack()   # 放入第二個 Label 標籤，內容是 a 變數
-tk.Label(root, text='輸入小寫q來離開程式\n輸入小寫m來關閉語音模式',font=('Arial',15),).pack() # 建立 label 標籤
+    now = datetime.datetime.now(tz=GMT).strftime('%H : %M : %S')      # 取得目前的時間，格式使用 H : M : S
+    a.set(now)      # 設定變數內容
+    root.after(1000, showTime)      # 視窗每隔 1000 毫秒再次執行一次 showTime()
 
-btn = tk.Button(root, text='點擊按鈕開始',command=root.destroy,width=20, height=5)     # 建立 Button 按鈕
-btn.pack()   
+tk.Label(root, text='\n目前時間', font=('Arial', 20)).pack()       # 放入第一個 Label 標籤
+tk.Label(root, textvariable=a, font=('Arial', 15)).pack()      # 放入第二個 Label 標籤，內容是 a 變數
+tk.Label(root, text='\n使用說明', font=('Arial', 20)).pack()     # 放入第三個 Label 標籤
+tk.Label(root, text='輸入小寫 q 即可關閉程式\n輸入小寫 m 即可關閉語音模式\n',font=('Arial', 13),).pack()     # 建立說明用 Label 標籤
+
+btn = tk.Button(root, text='點擊按鈕開始', command=root.destroy,width=20, height=5)     # 建立 Button 按鈕
+btn.pack()
 showTime()
 # 加入視窗中
 root.mainloop()
-# 初始化 Text-to-Speech 引擎
-engine = pyttsx3.init()
-# 在全局範圍定義一個鎖，以確保語音合成引擎在同一時間只能由一個執行緒啟動
-engine_lock = threading.Lock()
 
+############################### 手部繪製功能 ####################################
+
+# 設定視窗名稱
+cv2.namedWindow('Hand Tracking')
+cv2.namedWindow('position')
+cv2.namedWindow('angle')
+
+cap = cv2.VideoCapture(0)   # 開啟攝像頭
+# 初始化 Mediapipe 手部模型和繪製工具
+mpHands = mp.solutions.hands
+hands = mpHands.Hands()
+mpDraw = mp.solutions.drawing_utils  # 畫上手部特徵點
+
+# 自訂手部繪圖樣式
+handLmsStyle = mpDraw.DrawingSpec(color=(0, 100, 0), thickness=5)
+handConStyle = mpDraw.DrawingSpec(color=(0, 0, 255), thickness=6)
+
+############################### 手勢判讀功能 ####################################
 
 def calculate_angle(v1, v2, v3):
     # 計算第一條向量 v1v2
@@ -76,7 +92,6 @@ def calculate_angle(v1, v2, v3):
 
     return angle_deg  # 回傳兩向量之間的夾角（以角度表示）
 
-
 def hand_angle(hand_):
     angle_list = []
 
@@ -100,7 +115,6 @@ def hand_angle(hand_):
 
     return angle_list
 
-
 def gesture_predict(hand_ang):
     if not hand_ang:
         return "No Gesture"
@@ -112,6 +126,14 @@ def gesture_predict(hand_ang):
 
     return "Unknown"
 
+################################# 語音合成功能 ######################################
+
+# 初始化 Text-to-Speech 引擎
+engine = pyttsx3.init()
+# 在全局範圍定義一個鎖，以確保語音合成引擎在同一時間只能由一個執行緒啟動
+engine_lock = threading.Lock()
+# 初始化語音功能
+voice_enabled = True
 
 last_gesture = ""
 last_gesture_time = time.time()
@@ -121,9 +143,9 @@ def speak_gesture_async(gesture):
     global last_gesture_time, last_gesture
 
     # 如果上次手勢是空的，或者距離上次說出手勢已經超過5秒，或者手勢發生變化
-    if (not last_gesture or 
-        time.time() - last_gesture_time > 5 or 
-        (last_gesture != gesture and gesture != "Unknown")):
+    if (not last_gesture or
+        time.time() - last_gesture_time > 5 or
+            (last_gesture != gesture and gesture != "Unknown")):
 
         # 更新上次說出手勢的時間
         last_gesture_time = time.time()
@@ -132,7 +154,6 @@ def speak_gesture_async(gesture):
 
         # 在一個新的執行緒中進行語音合成
         threading.Thread(target=speak_gesture, args=(gesture,)).start()
-
 
 # 語音合成函式
 def speak_gesture(gesture):
@@ -150,27 +171,10 @@ def speak_gesture(gesture):
         except RuntimeError as e:
             print("RuntimeError:", e)  # 印出錯誤訊息
 
-
-# 設定視窗名稱
-cv2.namedWindow('Hand Tracking')
-cv2.namedWindow('position')
-cv2.namedWindow('angle')
-
-cap = cv2.VideoCapture(0)   # 開啟攝像頭
-# 初始化 Mediapipe 手部模型和繪製工具
-mpHands = mp.solutions.hands
-hands = mpHands.Hands()
-mpDraw = mp.solutions.drawing_utils  # 畫上手部特徵點
-
-# 自訂手部繪圖樣式
-handLmsStyle = mpDraw.DrawingSpec(color=(0, 100, 0), thickness=5)
-handConStyle = mpDraw.DrawingSpec(color=(0, 0, 255), thickness=6)
+################################### 主程式 ######################################
 
 pTime = 0
 cTime = 0
-
-# 初始化語音功能
-voice_enabled = True
 
 while True:
     ret, img = cap.read()
@@ -228,13 +232,13 @@ while True:
         gesture_speak = gesture_predict(hand_angles)
         cv2.putText(img, gesture_text, (300, 50),
                     cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 3)
-        
+
         # 語音功能狀態顯示
         voice_mode_text = "Voice Mode: ON" if voice_enabled else "Voice Mode: OFF"
         cv2.putText(img, voice_mode_text, (30, imgHeight - 30),
                     cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 3)
-        
-        #語音功能
+
+        # 語音功能
         if voice_enabled:
             speak_gesture_async(gesture_speak)  # 念出手勢
 
@@ -250,11 +254,11 @@ while True:
         cv2.imshow('angle', white_img_2)
 
     key = cv2.waitKey(1)
-    
+
     # 按小寫m開關語音模式
     if key == ord('m'):
         voice_enabled = not voice_enabled
-    
+
     # 按小寫q離開
     if key == ord('q'):
         break
